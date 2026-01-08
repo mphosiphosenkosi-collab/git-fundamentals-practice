@@ -16,5 +16,4 @@ jobs:
 
       - name: Run calculator app
         run: 
-          export CI=true
-          python src/main.py
+          export CI=true python src/main.py
