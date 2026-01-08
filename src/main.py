@@ -1,27 +1,53 @@
 # Team Project: Calculator Application
-# Version: 1.3.0
+# Version: 1.4.0 (safe eval)
 
 import tkinter as tk
 from tkinter import messagebox
+import ast
+import operator
+import os
 
+# -----------------------------
+# Calculator logic (safe eval)
+# -----------------------------
+ops = {
+    ast.Add: operator.add,
+    ast.Sub: operator.sub,
+    ast.Mult: operator.mul,
+    ast.Div: operator.truediv
+}
 
-# Calculator logic
-def add(a, b):
-    return a + b
+def safe_eval(expr):
+    """
+    Safely evaluate a math expression containing +, -, *, /
+    """
+    node = ast.parse(expr, mode='eval').body
+    return _eval(node)
 
-def subtract(a, b):
-    return a - b
+def _eval(node):
+    if isinstance(node, ast.BinOp):
+        if type(node.op) not in ops:
+            raise ValueError("Unsupported operator")
+        return ops[type(node.op)](_eval(node.left), _eval(node.right))
+    elif isinstance(node, ast.Num):  # Python <3.8
+        return node.n
+    elif isinstance(node, ast.Constant):  # Python >=3.8
+        return node.value
+    else:
+        raise ValueError("Unsupported expression")
 
-def multiply(a, b):
-    return a * b
-
+# Basic functions for CLI demo
+def add(a, b): return a + b
+def subtract(a, b): return a - b
+def multiply(a, b): return a * b
 def divide(a, b):
     if b == 0:
         raise ValueError("Cannot divide by zero")
     return a / b
 
-
+# -----------------------------
 # GUI Logic
+# -----------------------------
 class CalculatorApp:
     def __init__(self, root):
         self.root = root
@@ -81,7 +107,7 @@ class CalculatorApp:
 
     def calculate(self):
         try:
-            result = eval(self.expression)
+            result = safe_eval(self.expression)
             self.display.delete(0, tk.END)
             self.display.insert(tk.END, str(result))
             self.expression = str(result)
@@ -93,22 +119,23 @@ class CalculatorApp:
         self.expression = ""
         self.display.delete(0, tk.END)
 
-
+# -----------------------------
+# CLI Demo (for CI mode)
+# -----------------------------
 def run_cli_demo():
-    print("Calculator v1.3.0")
+    print("Calculator v1.4.0")
     print(f"10 + 5 = {add(10, 5)}")
     print(f"10 - 5 = {subtract(10, 5)}")
     print(f"10 x 5 = {multiply(10, 5)}")
     print(f"10 / 5 = {divide(10, 5)}")
 
-
+# -----------------------------
+# Entry point
+# -----------------------------
 if __name__ == "__main__":
-    import os
-
     if os.environ.get("CI") == "true":
         run_cli_demo()
     else:
         root = tk.Tk()
         app = CalculatorApp(root)
         root.mainloop()
-
