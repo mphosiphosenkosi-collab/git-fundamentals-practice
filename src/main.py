@@ -1,5 +1,5 @@
 # Team Project: Calculator Application
-# Version: 1.0.0
+# Version: 1.2.0
 
 def add(a, b):
     """Add two numbers"""
@@ -11,14 +11,12 @@ def subtract(a, b):
 
 def multiply(a, b):
     """Multiply two numbers"""
-    # TODO: Implement this function
     result = a * b
-    print(f"Multiplying {a} and {b}")
+    print(f"Multiplying {a} x {b}")
     return result
 
 def divide(a, b):
     """Divide a by b"""
-    # TODO: Implement this function
     if b == 0:
         raise ValueError("Cannot divide by zero!")
     return a / b
@@ -27,5 +25,5 @@ if __name__ == "__main__":
     print("Calculator v1.2.0")
     print(f"10 + 5 = {add(10, 5)}")
     print(f"10 - 5 = {subtract(10, 5)}")
-    print(f"10 * 5 = {multiply(10, 5)}")
+    print(f"10 x 5 = {multiply(10, 5)}")
     print(f"10 / 5 = {divide(10, 5)}")
