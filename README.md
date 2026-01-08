@@ -76,7 +76,7 @@ Run the calculator from the project root:
 python src/main.py
 
 🧪 Examples
-Calculator v1.2.0
+Calculator v1.3.0
 10 + 5 = 15
 10 - 5 = 5
 Multiplying 10 x 5
@@ -107,7 +107,7 @@ Submit changes via pull request
 
 📝 Changelog
 
-See CHANGELOG.md
+See CHANGELOG.mdgit
  for a detailed list of updates and version history.
 
 📄 License
