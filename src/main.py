@@ -94,7 +94,21 @@ class CalculatorApp:
         self.display.delete(0, tk.END)
 
 
+def run_cli_demo():
+    print("Calculator v1.3.0")
+    print(f"10 + 5 = {add(10, 5)}")
+    print(f"10 - 5 = {subtract(10, 5)}")
+    print(f"10 x 5 = {multiply(10, 5)}")
+    print(f"10 / 5 = {divide(10, 5)}")
+
+
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = CalculatorApp(root)
-    root.mainloop()
+    import os
+
+    if os.environ.get("CI") == "true":
+        run_cli_demo()
+    else:
+        root = tk.Tk()
+        app = CalculatorApp(root)
+        root.mainloop()
+
