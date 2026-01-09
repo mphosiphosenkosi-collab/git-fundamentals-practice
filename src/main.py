@@ -6,6 +6,20 @@ import os
 import sys
 from tkinter import messagebox
 
+def add(a, b):
+    return a + b
+
+def subtract(a, b):
+    return a - b
+
+def multiply(a, b):
+    return a * b
+
+def divide(a, b):
+    if b == 0:
+        raise ZeroDivisionError("Cannot divide by zero")
+    return a / b
+
 class BitCubeCalculator:
     def __init__(self, root):
         self.root = root
@@ -161,30 +175,22 @@ class BitCubeCalculator:
         return hex_color
     
     def on_button_click(self, char):
-        # Your button logic here (updated for new symbols)
-        pass
-    
-    # Rest of your methods (calculate, clear, etc.) with adjustments for new symbols
-
-    def create_buttons(self):
-        buttons = [
-            ("7", "8", "9", "/"),
-            ("4", "5", "6", "*"),
-            ("1", "2", "3", "-"),
-            ("0", ".", "=", "+")
-        ]
-
-        for row in buttons:
-            frame = tk.Frame(self.root)
-            frame.pack(expand=True, fill="both")
-            for char in row:
-                btn = tk.Button(
-                    frame,
-                    text=char,
-                    font=("Arial", 16),
-                    command=lambda c=char: self.on_button_click(c)
-                )
-                btn.pack(side="left", expand=True, fill="both")
+        if char == "C":
+            self.clear()
+        elif char == "⌫":
+            self.expression = self.expression[:-1]
+            self.update_display()
+        elif char == "=":
+            self.calculate()
+        else:
+            # Replace UI symbols with Python operators
+            symbol_map = {
+                "÷": "/",
+                "×": "*",
+                "−": "-"
+            }
+            self.expression += symbol_map.get(char, char)
+            self.update_display()
 
         clear_btn = tk.Button(
             self.root,
@@ -194,24 +200,24 @@ class BitCubeCalculator:
             command=self.clear
         )
         clear_btn.pack(fill="both", padx=10, pady=5)
+        
+    def update_display(self):
+        self.display.config(state="normal")
+        self.display.delete(0, tk.END)
+        self.display.insert(tk.END, self.expression)
+        self.display.config(state="readonly")
 
-    def on_button_click(self, char):
-        if char == "=":
-            self.calculate()
-        else:
-            self.expression += char
-            self.display.delete(0, tk.END)
-            self.display.insert(tk.END, self.expression)
 
     def calculate(self):
         try:
-            result = safe_eval(self.expression)
-            self.display.delete(0, tk.END)
-            self.display.insert(tk.END, str(result))
+            result = eval(self.expression)
             self.expression = str(result)
+            self.update_display()
         except Exception:
             messagebox.showerror("Error", "Invalid calculation")
             self.clear()
+
+
 
     def clear(self):
         self.expression = ""
@@ -235,5 +241,5 @@ if __name__ == "__main__":
         run_cli_demo()
     else:
         root = tk.Tk()
-        app = CalculatorApp(root)
+        app = BitCubeCalculator(root)
         root.mainloop()
