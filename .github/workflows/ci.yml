@@ -1,32 +1,35 @@
-name: Basic CI Workflow
+name: Calculator CI Test
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main  # Added this for clarity
+on: [push, pull_request]
 
 jobs:
-  run-calculator:
+  test-basic:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'  # Change to your version, e.g., '3.9'
+          python-version: "3.9"
 
-      - name: Install dependencies (if any)
+      - name: Debug - List files
         run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          echo "📁 Project structure:"
+          find . -type f -name "*.py" | sort
+          echo ""
+          echo "📁 src folder:"
+          ls -la src/ 2>/dev/null || echo "No src folder"
+          echo ""
+          echo "📁 .github folder:"
+          ls -la .github/workflows/
 
-      - name: Run calculator app
+      - name: Test Python script
         env:
-          CI: true  # Better way to set environment variable fixed here introduced and environment variable set
-        run: python src/main.py
+          CI: true
+        run: |
+          echo "🧪 Running main.py in CI mode..."
+          python src/main.py
+          echo "✅ Script executed successfully. Well dome mPHOZA!!"
