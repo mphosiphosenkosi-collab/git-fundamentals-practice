@@ -1,125 +1,96 @@
-# 🧮 Calculator Application
+# BitCube Pro Calculator v2.0.0
 
-![License](https://img.shields.io/badge/license-MIT-green)
-![Version](https://img.shields.io/badge/version-1.2.0-blue)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-
-A simple Python-based calculator application built to demonstrate **Git fundamentals, professional repository structure, and industry-standard Git practices**.
+[![Python](https://img.shields.io/badge/python-3.9+-blue)](https://www.python.org/) 
+[![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://github.com/mphosiphosenkosi-collab/git-fundamentals-practice)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
 ---
 
-## 📑 Table of Contents
-
-- [Overview](#overview)
-- [Features](#features)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Examples](#examples)
-- [Contributing](#contributing)
-- [Changelog](#changelog)
-- [License](#license)
-- [Credits & Contact](#credits--contact)
+## Table of Contents
+1. [About](#about)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [How to Run](#how-to-run)
+   - [GUI Mode](#gui-mode)
+   - [CLI Mode](#cli-mode)
+5. [Dependencies](#dependencies)
+6. [Usage](#usage)
+7. [License](#license)
 
 ---
 
-## 📘 Overview
-
-This project is a command-line calculator application developed as part of a Git Fundamentals practice assignment. The main goal of the project is to apply best practices in Git version control, including structured commits, branching workflows, and clear documentation.
-
-The application currently supports basic arithmetic operations and is designed to be easy to extend in future iterations.
+## About
+**BitCube Pro Calculator** is a modern Python calculator built with **Tkinter** for the GUI and **CLI support** for testing and automation.  
+It is designed with a neon-inspired interface, professional layout, and robust error handling — making it **portfolio-ready** for internships and demonstrations.
 
 ---
 
-## ✨ Features
-
-- Addition
-- Subtraction
-- Multiplication
-- Division with zero-check validation
-- Clean and readable Python code
-- Versioned releases following semantic versioning
+## Features
+- Modern neon-styled Tkinter GUI
+- Full numeric keypad with:
+  - Clear (`C`)
+  - Backspace (`⌫`)
+  - Percent (`%`)
+  - Divide (`÷`), Multiply (`×`), Subtract (`−`), Add (`+`)
+  - Equals (`=`)
+- Hover effects for buttons
+- Safe error handling for invalid operations
+- CLI demo for CI/CD testing
+- Designed for **portfolio and internship demonstration**
 
 ---
 
-## 📂 Project Structure
+## Installation
+1. Clone the repository:
+```bash
+git clone https://github.com/mphosiphosenkosi-collab/git-fundamentals-practice.git
+cd git-fundamentals-practice/src
+Ensure Python 3.9+ is installed.
 
-```text
-git-fundamentals-practice/
-├── src/
-│   └── main.py
-├── tests/
-│   └── .gitkeep
-├── docs/
-│   └── SETUP.md
-├── .github/
-│   └── ISSUE_TEMPLATE.md
-├── .gitignore
-├── README.md
-├── LICENSE
-└── CHANGELOG.md
-⚙️ Installation
-Prerequisites
+Run dependencies (all standard libraries, no extra installation needed).
 
-Python 3.9 or later
+How to Run
+GUI Mode
+bash
+Copy code
+python main.py
+Launches the BitCube GUI Calculator.
 
-Git installed
+Use mouse or keyboard to perform calculations.
 
-Steps
-git clone https://github.com/your-username/git-fundamentals-practice.git
-cd git-fundamentals-practice
+CLI Mode
+bash
+Copy code
+CI=true python main.py
+Runs CLI demo with functions:
 
-▶️ Usage
+add(a, b)
 
-Run the calculator from the project root:
+subtract(a, b)
 
-python src/main.py
+multiply(a, b)
 
-🧪 Examples
-Calculator v1.3.0
-10 + 5 = 15
-10 - 5 = 5
-Multiplying 10 x 5
-10 x 5 = 50
-10 / 5 = 2.0
+divide(a, b)
 
-Division by zero example
-divide(10, 0)
+Dependencies
+Python 3.9+
 
+Standard Libraries:
 
-Raises:
+tkinter (GUI)
 
-ValueError: Cannot divide by zero!
+os, sys (CLI & environment handling)
 
-🤝 Contributing
+messagebox (Error handling)
 
-Contributions are welcome.
+No external packages required
 
-Guidelines:
+Usage
+Ideal for demonstrating Python GUI & CLI development
 
-Create a feature branch for new changes
+Easily extendable with new math functions
 
-Use conventional commit messages (feat, fix, docs, chore)
+Designed for portfolio, internships, and CI/CD demos
 
-Ensure code is clean and well-documented
-
-Submit changes via pull request
-
-📝 Changelog
-
-See CHANGELOG.mdgit
- for a detailed list of updates and version history.
-
-📄 License
-
+License
 This project is licensed under the MIT License.
-See the LICENSE
- file for details.
-
-👤 Credits & Contact
-
-Author: J Siphosenkosi
-Project: Git Fundamentals Practice
-Purpose: Academic & learning use
-
-For questions or collaboration, feel free to reach out via GitHub.
