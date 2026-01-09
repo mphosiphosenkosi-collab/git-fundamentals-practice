@@ -103,7 +103,7 @@ class BitCubeCalculator:
         footer.pack(fill="x", side="bottom", pady=(10, 0))
         tk.Label(
             footer,
-            text="Built with Python • CI/CD Powered • Portfolio Ready",
+            text="Built with Python • CI/CD Powered • Siphosenkosi Portfolio ",
             font=("Segoe UI", 9),
             bg=self.colors["bg"],
             fg="#666699"
