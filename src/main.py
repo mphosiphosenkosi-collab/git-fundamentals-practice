@@ -1,72 +1,168 @@
-# Team Project: Calculator Application
-# Version: 1.4.0 (safe eval)
-
 import tkinter as tk
-from tkinter import messagebox
+from tkinter import font as tkfont
 import ast
 import operator
 import os
 
-# -----------------------------
-# Calculator logic (safe eval)
-# -----------------------------
-ops = {
-    ast.Add: operator.add,
-    ast.Sub: operator.sub,
-    ast.Mult: operator.mul,
-    ast.Div: operator.truediv
-}
-
-def safe_eval(expr):
-    """
-    Safely evaluate a math expression containing +, -, *, /
-    """
-    node = ast.parse(expr, mode='eval').body
-    return _eval(node)
-
-def _eval(node):
-    if isinstance(node, ast.BinOp):
-        if type(node.op) not in ops:
-            raise ValueError("Unsupported operator")
-        return ops[type(node.op)](_eval(node.left), _eval(node.right))
-    elif isinstance(node, ast.Num):  # Python <3.8
-        return node.n
-    elif isinstance(node, ast.Constant):  # Python >=3.8
-        return node.value
-    else:
-        raise ValueError("Unsupported expression")
-
-# Basic functions for CLI demo
-def add(a, b): return a + b
-def subtract(a, b): return a - b
-def multiply(a, b): return a * b
-def divide(a, b):
-    if b == 0:
-        raise ValueError("Cannot divide by zero")
-    return a / b
-
-# -----------------------------
-# GUI Logic
-# -----------------------------
-class CalculatorApp:
+class BitCubeCalculator:
     def __init__(self, root):
         self.root = root
-        self.root.title("Calculator")
-        self.root.geometry("300x400")
-        self.root.resizable(False, False)
-
+        self.root.title("BitCube Pro Calculator")
+        self.root.geometry("380x550")
+        self.root.configure(bg="#1A1A2E")
+        
+        # Make window slightly transparent for modern look
+        self.root.attributes('-alpha', 0.97)
+        
         self.expression = ""
-
+        
+        # BITCUBE COLOR SCHEME
+        self.colors = {
+            "bg": "#1A1A2E",
+            "display_bg": "#0F0F1E",
+            "display_fg": "#00FF9D",  # Neon green text
+            "num_btn": "#2A3B8F",     # Deep blue
+            "num_fg": "#FFFFFF",
+            "op_btn": "#00C2FF",      # Electric blue
+            "op_fg": "#000000",
+            "equals_btn": "#00FF9D",  # Lime green
+            "equals_fg": "#000000",
+            "clear_btn": "#FF375F",   # BitCube red accent
+            "clear_fg": "#FFFFFF"
+        }
+        
+        self.setup_ui()
+    
+    def setup_ui(self):
+        # Custom fonts
+        self.title_font = tkfont.Font(family="Segoe UI", size=12, weight="bold")
+        self.display_font = tkfont.Font(family="Consolas", size=28, weight="bold")
+        self.btn_font = tkfont.Font(family="Segoe UI", size=16, weight="bold")
+        
+        # Header with BitCube branding
+        header = tk.Frame(self.root, bg=self.colors["bg"])
+        header.pack(fill="x", padx=20, pady=(20, 10))
+        
+        tk.Label(
+            header,
+            text="⚡ BITCUBE PRO CALCULATOR",
+            font=self.title_font,
+            bg=self.colors["bg"],
+            fg=self.colors["op_btn"],
+            anchor="w"
+        ).pack(side="left")
+        
+        tk.Label(
+            header,
+            text="v2.0.0",
+            font=("Segoe UI", 10),
+            bg=self.colors["bg"],
+            fg=self.colors["display_fg"],
+            anchor="e"
+        ).pack(side="right")
+        
+        # Display with modern look
+        display_frame = tk.Frame(self.root, bg=self.colors["display_bg"], relief="flat")
+        display_frame.pack(fill="x", padx=20, pady=10)
+        
         self.display = tk.Entry(
-            root,
-            font=("Arial", 20),
-            borderwidth=2,
-            relief="solid",
-            justify="right"
+            display_frame,
+            font=self.display_font,
+            borderwidth=0,
+            relief="flat",
+            justify="right",
+            bg=self.colors["display_bg"],
+            fg=self.colors["display_fg"],
+            insertbackground=self.colors["display_fg"],
+            readonlybackground=self.colors["display_bg"]
         )
-        self.display.pack(fill="x", padx=10, pady=10)
-
+        self.display.pack(fill="x", padx=15, pady=15)
+        self.display.config(state='readonly')
+        
+        # Buttons grid with BitCube styling
         self.create_buttons()
+        
+        # Footer
+        footer = tk.Frame(self.root, bg=self.colors["bg"], height=30)
+        footer.pack(fill="x", side="bottom", pady=(10, 0))
+        tk.Label(
+            footer,
+            text="Built with Python • CI/CD Powered • Portfolio Ready",
+            font=("Segoe UI", 9),
+            bg=self.colors["bg"],
+            fg="#666699"
+        ).pack()
+    
+    def create_buttons(self):
+        # Button layout
+        buttons = [
+            ["C", "⌫", "%", "÷"],
+            ["7", "8", "9", "×"],
+            ["4", "5", "6", "−"],
+            ["1", "2", "3", "+"],
+            ["00", "0", ".", "="]
+        ]
+        
+        button_frame = tk.Frame(self.root, bg=self.colors["bg"])
+        button_frame.pack(expand=True, fill="both", padx=20, pady=10)
+        
+        # Configure grid
+        for i in range(5):
+            button_frame.grid_rowconfigure(i, weight=1)
+        for j in range(4):
+            button_frame.grid_columnconfigure(j, weight=1)
+        
+        # Create buttons
+        for row_idx, row in enumerate(buttons):
+            for col_idx, text in enumerate(row):
+                # Determine button style
+                if text in ["C", "⌫"]:
+                    bg, fg = self.colors["clear_btn"], self.colors["clear_fg"]
+                elif text in ["÷", "×", "−", "+", "%"]:
+                    bg, fg = self.colors["op_btn"], self.colors["op_fg"]
+                elif text == "=":
+                    bg, fg = self.colors["equals_btn"], self.colors["equals_fg"]
+                else:
+                    bg, fg = self.colors["num_btn"], self.colors["num_fg"]
+                
+                btn = tk.Button(
+                    button_frame,
+                    text=text,
+                    font=self.btn_font,
+                    bg=bg,
+                    fg=fg,
+                    activebackground=self.lighten_color(bg, 20),
+                    activeforeground=fg,
+                    borderwidth=0,
+                    relief="flat",
+                    cursor="hand2",
+                    command=lambda t=text: self.on_button_click(t)
+                )
+                
+                # Add hover effect
+                btn.bind("<Enter>", lambda e, b=btn: b.config(bg=self.lighten_color(b['bg'], 10)))
+                btn.bind("<Leave>", lambda e, b=btn, c=bg: b.config(bg=c))
+                
+                btn.grid(
+                    row=row_idx,
+                    column=col_idx,
+                    sticky="nsew",
+                    padx=3,
+                    pady=3
+                )
+    
+    def lighten_color(self, hex_color, percent):
+        """Lighten a hex color by given percent"""
+        # Convert hex to RGB, lighten, convert back
+        # (Implementation for color manipulation)
+        # Simplified version - in full code we'd implement proper color math
+        return hex_color
+    
+    def on_button_click(self, char):
+        # Your button logic here (updated for new symbols)
+        pass
+    
+    # Rest of your methods (calculate, clear, etc.) with adjustments for new symbols
 
     def create_buttons(self):
         buttons = [
