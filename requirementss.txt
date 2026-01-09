@@ -1,0 +1,10 @@
+# Calculator App Dependencies
+# Version pinned for reproducibility
+
+# Testing
+pytest>=7.0.0
+
+# Code formatting
+black>=23.0.0
+
+# (tkinter is part of Python standard library)
