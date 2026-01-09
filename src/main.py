@@ -3,6 +3,8 @@ from tkinter import font as tkfont
 import ast
 import operator
 import os
+import sys
+from tkinter import messagebox
 
 class BitCubeCalculator:
     def __init__(self, root):
@@ -219,7 +221,7 @@ class BitCubeCalculator:
 # CLI Demo (for CI mode)
 # -----------------------------
 def run_cli_demo():
-    print("Calculator v1.4.0")
+    print("Calculator v1.3.0")
     print(f"10 + 5 = {add(10, 5)}")
     print(f"10 - 5 = {subtract(10, 5)}")
     print(f"10 x 5 = {multiply(10, 5)}")
