@@ -192,14 +192,6 @@ class BitCubeCalculator:
             self.expression += symbol_map.get(char, char)
             self.update_display()
 
-        clear_btn = tk.Button(
-            self.root,
-            text="Clear",
-            font=("Arial", 16),
-            bg="lightgray",
-            command=self.clear
-        )
-        clear_btn.pack(fill="both", padx=10, pady=5)
         
     def update_display(self):
         self.display.config(state="normal")
@@ -219,9 +211,13 @@ class BitCubeCalculator:
 
 
 
+    expression = ""
+
     def clear(self):
         self.expression = ""
-        self.display.delete(0, tk.END)
+        self.update_display()
+
+
 
 # -----------------------------
 # CLI Demo (for CI mode)
